@@ -15,14 +15,39 @@ ORDERS_DICT_PATH = _PROJECT_ROOT / "data" / "orders-data-dictionary.md"
 INDEX_CACHE_DIR = _PROJECT_ROOT / "src" / "index_cache"
 EVAL_CASES_PATH = _PROJECT_ROOT / "evaluation" / "visible-cases.json"
 
-# --- LLM Provider ---
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini").lower()
-LLM_API_KEY = os.getenv("GEMINI_API_KEY") if LLM_PROVIDER == "gemini" else os.getenv("OPENAI_API_KEY")
-LLM_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite") if LLM_PROVIDER == "gemini" else os.getenv("OPENAI_MODEL", "gpt-4o")
+# --- LLM Provider Auto-Detection & Config ---
+_env_provider = os.getenv("LLM_PROVIDER")
+_gemini_key = os.getenv("GEMINI_API_KEY")
+_openai_key = os.getenv("OPENAI_API_KEY")
 
-# --- Embedding Provider ---
-EMBEDDING_PROVIDER = os.getenv("EMBEDDING_PROVIDER", "gemini").lower()
-EMBEDDING_MODEL = os.getenv("GEMINI_EMBEDDING_MODEL", "gemini-embedding-001") if EMBEDDING_PROVIDER == "gemini" else os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+if _env_provider:
+    LLM_PROVIDER = _env_provider.strip().lower()
+elif _openai_key and not _gemini_key:
+    LLM_PROVIDER = "openai"
+else:
+    LLM_PROVIDER = "gemini"
+
+LLM_API_KEY = _openai_key if LLM_PROVIDER == "openai" else _gemini_key
+LLM_MODEL = (
+    os.getenv("OPENAI_MODEL", "gpt-4o")
+    if LLM_PROVIDER == "openai"
+    else os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
+)
+
+# --- Embedding Provider Auto-Detection & Config ---
+_env_emb_provider = os.getenv("EMBEDDING_PROVIDER")
+if _env_emb_provider:
+    EMBEDDING_PROVIDER = _env_emb_provider.strip().lower()
+elif LLM_PROVIDER == "openai":
+    EMBEDDING_PROVIDER = "openai"
+else:
+    EMBEDDING_PROVIDER = "gemini"
+
+EMBEDDING_MODEL = (
+    os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+    if EMBEDDING_PROVIDER == "openai"
+    else os.getenv("GEMINI_EMBEDDING_MODEL", "gemini-embedding-001")
+)
 
 # --- Retrieval ---
 RETRIEVAL_TOP_K = int(os.getenv("RETRIEVAL_TOP_K", "8"))
