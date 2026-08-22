@@ -6,7 +6,8 @@ A reliable, privacy-first AI customer support agent for **Aster & Row** (an ecom
 
 ## Demo
 
-(https://github.com/user-attachments/assets/ef2cf8fc-a2d7-4c6f-ad62-96a04ff50c6e)
+https://github.com/user-attachments/assets/ef2cf8fc-a2d7-4c6f-ad62-96a04ff50c6e
+
 ---
 
 ## 1. System Architecture & Design
