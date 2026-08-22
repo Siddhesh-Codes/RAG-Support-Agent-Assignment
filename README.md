@@ -1,4 +1,4 @@
-# Aster & Row — Autonomous Customer Support Agent
+# Aster & Row - Autonomous Customer Support Agent
 
 A reliable, privacy-first AI customer support agent for **Aster & Row** (an ecommerce brand selling bags, drinkware, and travel gear). Built from scratch in Python with a strict trust hierarchy, policy precedence engine, sanitized tool execution, and an automated 32-case evaluation suite.
 
