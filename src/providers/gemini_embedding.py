@@ -1,6 +1,6 @@
-"""Gemini embedding provider using google-genai SDK."""
-
 import os
+import re
+import time
 from typing import Optional
 from google import genai
 from src.rag.index import EmbeddingProvider
@@ -37,8 +37,6 @@ class GeminiEmbeddingProvider:
             max_retries = 8
             base_delay = 2.0
             last_exc = None
-            import time
-            import re
 
             for attempt in range(max_retries):
                 try:

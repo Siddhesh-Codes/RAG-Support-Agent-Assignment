@@ -7,6 +7,7 @@ the internal state drives assertions.
 
 from dataclasses import dataclass, field
 from enum import Enum
+import re
 from typing import Optional
 
 
@@ -32,9 +33,6 @@ class SourceCitation:
         if self.heading:
             parts.append(f"- {self.heading}")
         return " ".join(parts)
-
-
-import re
 
 
 def strip_markdown(text: str) -> str:

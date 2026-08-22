@@ -1,6 +1,7 @@
-"""Google Gemini LLM provider implementation using google-genai SDK."""
-
 import os
+import re
+import sys
+import time
 from typing import Optional, Any
 from google import genai
 from google.genai import types
@@ -146,10 +147,6 @@ class GeminiProvider(LLMProvider):
         max_retries = 8
         base_delay = 2.0
         last_exception = None
-
-        import time
-        import re
-        import sys
 
         for attempt in range(max_retries):
             try:
