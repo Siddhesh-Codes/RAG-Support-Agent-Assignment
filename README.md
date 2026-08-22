@@ -6,13 +6,7 @@ A reliable, privacy-first AI customer support agent for **Aster & Row** (an ecom
 
 ## Demo
 
-![Aster & Row Agent Demo](https://github.com/user-attachments/assets/ef2cf8fc-a2d7-4c6f-ad62-96a04ff50c6e)
-
-
-
-
-> **Note on Video Demo:** If you have recorded an `.mp4` walkthrough, you can upload it directly to the GitHub README by editing this file on GitHub.com and dragging & dropping your video file into the markdown editor (GitHub will automatically generate an embedded video player).
-
+(https://github.com/user-attachments/assets/ef2cf8fc-a2d7-4c6f-ad62-96a04ff50c6e)
 ---
 
 ## 1. System Architecture & Design
