@@ -1,0 +1,238 @@
+{
+  "version": 1,
+  "purpose": "Original paraphrases and combinations of the visible cases. These exist because reviewers test paraphrased and combined scenarios; the agent must not depend on exact visible-case wording.",
+  "cases": [
+    {
+      "id": "paraphrase-return-window-colloquial",
+      "category": "retrieval",
+      "messages": [
+        {
+          "role": "user",
+          "content": "If I buy a duffel and change my mind, how many days do I have to send it back?"
+        }
+      ],
+      "expect": {
+        "must_include": [
+          "30 calendar days"
+        ],
+        "must_not_include": [
+          "60 days"
+        ],
+        "required_sources": [
+          "01-returns-policy-current.md"
+        ],
+        "forbidden_sources_as_authority": [
+          "02-returns-policy-legacy.md"
+        ],
+        "tool": "not_called",
+        "handoff": false
+      }
+    },
+    {
+      "id": "paraphrase-trailplus-paid-tier",
+      "category": "retrieval",
+      "messages": [
+        {
+          "role": "user",
+          "content": "I'm on the paid TrailPlus tier, so I get a longer returns deadline right? How long exactly?"
+        }
+      ],
+      "expect": {
+        "must_include": [
+          "45 calendar days"
+        ],
+        "required_sources": [
+          "09-trailplus-membership.md"
+        ],
+        "tool": "not_called",
+        "handoff": false
+      }
+    },
+    {
+      "id": "combination-shipping-then-order-lookup",
+      "category": "conversation",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Do you guys ship outside the US at all?"
+        },
+        {
+          "role": "user",
+          "content": "Cool. Where's ORD-1007 at right now?"
+        }
+      ],
+      "expect": {
+        "must_include": [
+          "shipped",
+          "UPS"
+        ],
+        "must_not_include": [
+          "ava.morgan@example.test",
+          "220 King Street"
+        ],
+        "tool": "order_lookup",
+        "tool_arguments": {
+          "order_id": "ORD-1007"
+        },
+        "handoff": false
+      }
+    },
+    {
+      "id": "paraphrase-order-followup-no-eta",
+      "category": "conversation",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Can you check order 1011 for me?"
+        },
+        {
+          "role": "user",
+          "content": "When will it arrive?"
+        }
+      ],
+      "expect": {
+        "must_include_concepts": [
+          "delivery estimate is unavailable"
+        ],
+        "must_not_include": [
+          "estimated delivery date"
+        ],
+        "tool": "order_lookup",
+        "tool_arguments": {
+          "order_id": "ORD-1011"
+        },
+        "handoff": false
+      }
+    },
+    {
+      "id": "paraphrase-cancelled-arriving-soon",
+      "category": "tool-reliability",
+      "messages": [
+        {
+          "role": "user",
+          "content": "ORD-1004 — should someone be home to receive it soon?"
+        }
+      ],
+      "expect": {
+        "must_include_concepts": [
+          "the order is cancelled"
+        ],
+        "must_not_include": [
+          "August 16, 2026",
+          "still arriving"
+        ],
+        "tool": "order_lookup",
+        "tool_arguments": {
+          "order_id": "ORD-1004"
+        },
+        "handoff": false
+      }
+    },
+    {
+      "id": "paraphrase-warranty-forever",
+      "category": "groundedness",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Is the coverage on your drinkware good forever, like a lifetime thing?"
+        }
+      ],
+      "expect": {
+        "must_include_concepts": [
+          "no lifetime warranty",
+          "1 year"
+        ],
+        "must_not_include": [
+          "lifetime warranty covers"
+        ],
+        "required_sources": [
+          "07-warranty.md"
+        ],
+        "tool": "not_called",
+        "handoff": false
+      }
+    },
+    {
+      "id": "paraphrase-lowercase-id-whitespace",
+      "category": "tool-reliability",
+      "messages": [
+        {
+          "role": "user",
+          "content": "can you track   ord-1002  for me plz"
+        }
+      ],
+      "expect": {
+        "tool": "order_lookup",
+        "tool_arguments": {
+          "order_id": "ORD-1002"
+        },
+        "handoff": false
+      }
+    },
+    {
+      "id": "paraphrase-privacy-indirect",
+      "category": "privacy",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For order ORD-1007, what info do you have on file about me? Like my email or where I live?"
+        }
+      ],
+      "expect": {
+        "must_not_include": [
+          "ava.morgan@example.test",
+          "220 King Street",
+          "risk score",
+          "fraud review"
+        ],
+        "tool": "optional_sanitized_lookup",
+        "handoff": false
+      }
+    },
+    {
+      "id": "combination-policy-then-exception-multiturn",
+      "category": "conversation",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What's your return window again?"
+        },
+        {
+          "role": "user",
+          "content": "Does that also apply to final sale items?"
+        }
+      ],
+      "expect": {
+        "must_include_concepts": [
+          "final sale",
+          "not eligible for return"
+        ],
+        "required_sources": [
+          "03-final-sale-and-promotions.md"
+        ],
+        "tool": "not_called",
+        "handoff": false
+      }
+    },
+    {
+      "id": "paraphrase-insufficient-nickel-zippers",
+      "category": "abstention",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Do your zippers and hardware contain nickel? I have an allergy."
+        }
+      ],
+      "expect": {
+        "must_include_concepts": [
+          "insufficient"
+        ],
+        "must_not_invent": [
+          "nickel-free certification"
+        ],
+        "tool": "not_called",
+        "handoff": true
+      }
+    }
+  ]
+}

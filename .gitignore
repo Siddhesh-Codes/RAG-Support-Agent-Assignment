@@ -1,0 +1,30 @@
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Embeddings & vector index cache
+src/index_cache/
+*.npy
+
+# IDE & Editor files
+.vscode/
+.idea/
+.kombai/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Runtime logs & trace records
+logs/
+eval/logs/
+*.log
+*.jsonl
+observability.jsonl
